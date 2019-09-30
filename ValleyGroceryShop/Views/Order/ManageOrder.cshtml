@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "ManageOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Manage Order</li>
+    </ol>
+</div><!--/.row-->
+<!-- Main content -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Manage Order
+                <ul class="pull-right"></ul>
+
+            </div>
+            <div class="panel-body">
+                <table id="employeeTable" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>OrderId</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Address</th>
+                            <th>Phone</th>
+                            <th>Total</th>
+                            <th>OrderDate</th>
+                            <th>DeliveredStatus</th>
+
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
+<link href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.3.1/js/buttons.flash.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js"></script>
+    <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.3.1/js/buttons.print.min.js"></script>
+
+    <script>
+        var Popup, dataTable;
+        $(document).ready(function () {
+
+            $("#employeeTable").DataTable(
+                {
+                    "ajax": {
+                        "url": "/Order/GetData",
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "OrderId" },
+                        { "data": "Firstname" },
+                        { "data": "Lastname" },
+                       { "data": "Address" },
+                        { "data": "Phone" },
+                        { "data": "Total" },
+                        { "data": "OrderDate" },
+                        { "data": "DeliveredStatus" },
+
+
+                         {
+                             "data": "OrderId", "render": function (data) {
+                                     return "<a class='btn btn-default btn-sm' href='@Url.Action("ViewOrder","Order")/" + data + "'><i class='fa fa-pencil'></i> Confirm</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa fa-trash'></i> Delete</a>";
+                                 },
+                                 "orderable": false,
+                                 "searchable": false,
+                                 "width": "150px"
+                             }
+                        ],
+                        "language": {
+
+                            "emptyTable": "No data found, Please click on <b>Add New</b> Button"
+                        },
+
+                        "buttons": [
+                            {
+                                extend: 'copy',
+                                className: 'copyButton',
+                                text: '<i class="fa fa-clone"></i> Copy'
+                            },
+                            {
+                                extend: 'excel',
+                                text: '<i class="fa fa-file-excel-o"></i> Excel'
+                            },
+                            {
+                                extend: 'pdf',
+                                text: '<i class="fa fa-file-pdf-o"></i> Pdf'
+                            },
+                            {
+                                extend: 'csv',
+                                text: '<i class="fa fa-file-excel-o"></i> CSV'
+                            },
+                            {
+                                extend: 'print',
+                                text: '<i class="fa fa-print"></i> Print',
+                                customize: function (win) {
+                                    $(win.document.body)
+                                        .css('font-size', '10pt')
+                                        .prepend(
+                                            '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
+                                        );
+
+                                    $(win.document.body).find('table')
+                                        .addClass('compact')
+                                        .css('font-size', 'inherit');
+                                }
+                            }
+
+                        ]
+
+                    });
+                });
+
+
+
+         function Delete(id) {
+            if(confirm('Are You Sure to Delete this Order ?'))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete","Order")/' + id,
+                    success: function (data) {
+                        if (data.success)
+                        {
+                            $('#employeeTable').DataTable().ajax.reload()
+
+                            sweetAlert
+                                ({
+                                    title: "Deleted!",
+                                    text: data.message,
+                                    type: "success"
+                                });
+
+                        }
+                    }
+
+                });
+            }
+        }
+    </script>
+}
+
+
+

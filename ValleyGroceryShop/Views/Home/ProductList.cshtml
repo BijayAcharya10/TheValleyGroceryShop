@@ -1,0 +1,96 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ValleyGroceryShop.Models.tblProduct>
+@using ValleyGroceryShop.Models;
+
+
+@{
+    ViewBag.Title = "ProductList";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+ <link href="~/rootcss/css/bootstrap2.css" rel='stylesheet' type='text/css' />
+    <link href="~/rootcss/css/style2.css" rel='stylesheet' type='text/css' />
+    <link href="~/rootcss/css/font-awesome2.css" rel="stylesheet">
+@*<div class="banner-top">
+    <div class="container">
+        <h3>List Of Food</h3>
+        <h4><a href="@Url.Action("Index","Home")">Home</a><label>/</label>List Of Items</h4>
+        <div class="search-form">
+            @using (Html.BeginForm("ProductList", "Home", FormMethod.Post))
+            {
+                @Html.TextBox("search", null, new { @placeHolder = "Enter Keyword" })
+
+                <input type="submit" value=" ">
+            }
+
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>*@
+<div class="content-top ">
+    <div class="container ">
+        <div class="spec ">
+            <h3>List Of Items</h3>
+            <div class="ser-t">
+                <b></b>
+                <span><i></i></span>
+                <b class="line"></b>
+            </div>
+        </div>
+        <div class="tab-head ">
+
+            <div class=" tab-content tab-content-t ">
+                <div class="tab-pane active text-style" id="tab1">
+                    <div class=" con-w3l">
+                        @if (Model.Count() == 0)
+                        {
+                            <tr>
+                                <td colspan="5">
+                                    No Data were found
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model)
+
+                            {
+                                <div class="col-md-3 m-wthree">
+                                    <div class="col-m">
+
+                                        @* <a href="@Url.Action("ViewItem", "Home", new { id = item.ItemId })" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" class="viewitem"><span class="fa fa-search"></span></a>*@
+                                        <a href="@Url.Action("ViewItem", "Home", new { id = item.ProductId })" data-toggle="modal" data-target="#myModal" class="viewitem">
+                                            <img src="~/UserLayout/images/@item.Photo" class="img-responsive" alt="">
+
+                                        </a>
+                                        <div class="mid-1">
+                                            <div class="women">
+                                                <h6><a href="single.html">@item.ProductName</a></h6>
+                                            </div>
+
+                                            <div class="mid-2">
+                                                <div class="info-product-price">
+                                                    <span class="item_price">Rs.@item.SellingPrice</span>
+                                                </div>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="add">
+                                                <a class="btn btn-danger" href="@Url.Action("AddToCart","ShoppingCart", new { id = item.ProductId }, "")"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        @Html.PagedListPager(Model, page => Url.Action("ProductList", new { page, search = Request.QueryString["search"] }),
+                       new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true,
+                           DisplayItemSliceAndTotal = true })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

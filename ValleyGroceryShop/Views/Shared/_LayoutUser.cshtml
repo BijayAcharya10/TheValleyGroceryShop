@@ -1,0 +1,505 @@
+﻿@using ValleyGroceryShop.Models
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>Valley Grocery Shop</title>
+    <!--/tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Grocery Shoppy Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!--//tags -->
+    <link href="~/rootcss/css/bootstrap2.css" rel='stylesheet' type='text/css' />
+    <link href="~/rootcss/css/style2.css" rel='stylesheet' type='text/css' />
+    <link href="~/rootcss/css/font-awesome2.css" rel="stylesheet">
+    <link href="~/UserLayout/css/jquery-ui.min.css" rel="stylesheet" />
+
+
+    <link href="~/UserLayout/logincss/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="~/UserLayout/logincss/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="~/UserLayout/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/UserLayout/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/UserLayout/css/font-awesome.css" rel="stylesheet">
+    <link href="~/UserLayout/logincss/font-awesome.css" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <!--pop-up-box-->
+    <link href="~/UserLayout/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+    <!--
+        //pop-up-box-->
+    <!-- price range -->
+    <link rel="stylesheet" type="text/css" href="~/UserLayout/css/jquery-ui1.css">
+
+
+
+    <!-- fonts -->
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+    <!-- top-header -->
+    <div class="header-most-top">
+        <p>Grocery Offer Zone Top Deals & Discounts</p>
+    </div>
+    <!-- //top-header -->
+    <!-- header-bot-->
+    <div class="header-bot">
+        <div class="header-bot_inner_wthreeinfo_header_mid">
+            <!-- header-bot-->
+            <div class="col-md-4 logo_agile">
+                <h1>
+                    <a href="@Url.Action("Index","Home")">
+                        <span>V</span>alley
+                        <span>S</span>hopping
+                        <img src="~/UserLayout/images/logo2.png" alt=" ">
+                    </a>
+                </h1>
+            </div>
+            <!-- header-bot -->
+            <div class="col-md-8 header">
+                <!-- header lists -->
+                <ul>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li><a href="@Url.Action("Logout","Account")"><i class="hyper" aria-hidden="true"></i>Logout</a></li>
+                        <li><a href="@Url.Action("ChangePassword","Home")"><i class="hyper" aria-hidden="true"></i>Change Password</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="@Url.Action("Login","Account")"><i class="fa fa-unlock-alt" aria-hidden="true"></i>Login</a></li>
+
+                    }
+                    <li><a href="@Url.Action("Signup","Home")"><i class="fa fa-arrow-right" aria-hidden="true"></i>Register</a></li>
+                    <li><a href="@Url.Action("Contact","Home")"><i class="hyper" aria-hidden="true"></i>Contact Us</a></li>
+
+                </ul>
+                <!-- //header lists -->
+                <!-- search -->
+                <div class="agileits_search">
+                    @using (Html.BeginForm("ProductList", "Home", FormMethod.Post))
+                    {
+
+
+                        <input name="Search" type="search" placeholder="How can we help you today?" required="">
+                        <button type="submit" class="btn btn-default" aria-label="Left Align">
+                            <span class="fa fa-search" aria-hidden="true"> </span>
+                        </button>
+                    }
+                </div>
+                <!-- //search -->
+                <!-- cart details -->
+                <div class="top_nav_right">
+                    <div class="wthreecartaits wthreecartaits2 cart cart box_1">
+                        @using (Html.BeginForm("ShoppingCartList", "ShoppingCart", FormMethod.Post))
+                        {
+                            <button class="w3view-cart" type="submit" name="submit" value="">
+                                <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                            </button>
+                        }
+
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+    <!-- shop locator (popup) -->
+    <!-- Button trigger modal(shop-locator) -->
+    <!-- //shop locator (popup) -->
+    <!-- //header-bot -->
+    <!-- navigation -->
+    <div class="ban-top">
+        <div class="container">
+
+            <div class="top_nav_left">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                                    aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav menu__list">
+                                <li>
+                                    <a href="@Url.Action("Index","Home")" class="hyper">Home</a>
+                                </li>
+                                @{
+                                    List<tblCategory> myMenu = MyMenu.GetMenus();
+
+                                    foreach (var item in myMenu)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("ProductList","Home",new { id = item.CategoryId })" class="hyper">@item.CategoryName</a>
+                                        </li>
+                                    }
+                                }
+
+                                <li>
+                                    <a href="@Url.Action("Contact","Home")" class="hyper">Contact Us</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- //navigation -->
+    <!-- //newsletter -->
+
+    @RenderBody()
+
+
+    <footer>
+        <div class="container">
+            <!-- footer first section -->
+            <!-- //footer first section -->
+            <!-- footer second section -->
+            <div class="w3l-grids-footer">
+                <div class="col-xs-4 offer-footer">
+                    <div class="col-xs-4 icon-fot">
+                        <span class="fa fa-map-marker" aria-hidden="true"></span>
+                    </div>
+                    <div class="col-xs-8 text-form-footer">
+                        <h3>Track Your Order</h3>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-4 offer-footer">
+                    <div class="col-xs-4 icon-fot">
+                        <span class="fa fa-refresh" aria-hidden="true"></span>
+                    </div>
+                    <div class="col-xs-8 text-form-footer">
+                        <h3>Free & Easy Returns</h3>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-4 offer-footer">
+                    <div class="col-xs-4 icon-fot">
+                        <span class="fa fa-times" aria-hidden="true"></span>
+                    </div>
+                    <div class="col-xs-8 text-form-footer">
+                        <h3>Online cancellation </h3>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!-- //footer second section -->
+            <!-- footer third section -->
+            <div class="footer-info w3-agileits-info">
+                <!-- footer categories -->
+                <div class="col-sm-5 address-right">
+                    <div class="col-xs-6 footer-grids">
+                        <h3>Categories</h3>
+                        <ul>
+                            @{
+                                List<tblCategory> myMenus = MyMenu.GetMenus();
+
+                                foreach (var item in myMenus)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("ProductList","Home",new { id = item.CategoryId })" class="hyper">@item.CategoryName</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <!-- //footer categories -->
+                <!-- quick links -->
+                <div class="col-sm-5 address-right">
+                    <div class="col-xs-6 footer-grids">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li>
+                                <a href="about.html">About Us</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Contact","Home")">Contact Us</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Contact","Home")">Help</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-6 footer-grids">
+                        <h3>Get in Touch</h3>
+                        <ul>
+                            <li>
+                                <i class="fa fa-map-marker"></i>New-Plaza, Kathmandu
+                            </li>
+                            <li>
+                                <i class="fa fa-mobile"></i>+9805191986
+                            </li>
+                            <li>
+                                <i class="fa fa-phone"></i> +84956123331
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope-o"></i>
+                                <a href="mailto:example@mail.com">aayanacharya2000@gmail.com</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- //quick links -->
+                <!-- social icons -->
+                <div class="col-sm-2 footer-grids  w3l-socialmk">
+                    <h3>Follow Us on</h3>
+                    <div class="social">
+                        <ul>
+                            <li>
+                                <a class="icon fb" href="https://www.facebook.com/profile.php?id=100008213238246">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="icon tw" href="https://twitter.com/home">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="icon gp" href="https://aboutme.google.com/u/0/?referer=gplus">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="agileits_app-devices">
+                        <h5>Download the App</h5>
+                        <a href="#">
+                            <img src="~/UserLayout/images/1.png" alt="">
+                        </a>
+                        <a href="#">
+                            <img src="~/UserLayout/images/2.png" alt="">
+                        </a>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <!-- //social icons -->
+                <div class="clearfix"></div>
+            </div>
+            <!-- //footer third section -->
+            <!-- footer fourth section (text) -->
+            <div class="agile-sometext">
+                <div class="sub-some">
+                    <h5>VALLEY Grocery Shopping</h5>
+                    <p>
+                        Order online. All your favourite products from the low price online supermarket for grocery home delivery in Kathmandu,
+                        Pokhara, Baglung, Chitwan and some other cities in Nepal. Lowest prices guaranteed on Patanjali, Aashirvaad, Pampers, WaiWai,
+                        Saffola, Huggies, Fortune, Nestle, Amul, MamyPoko Pants, Surf Excel, Ariel, Vim, Haldiram's and others.
+                    </p>
+                </div>
+                <div class="sub-some">
+                    <h5>Shop online with the best deals & offers</h5>
+                    <p>
+                        Now Get Upto 40% Off On Everyday Essential Products Shown On The Offer Page. The range includes Grocery, Personal Care,
+                        Baby Care, Pet Supplies, Healthcare and Other Daily Need Products. Discount May Vary From Product To Product.
+                    </p>
+
+                    <!-- payment -->
+                    <div class="sub-some child-momu">
+                        <h5>Payment Method</h5>
+                        <ul>
+                            <li>
+                                <img src="~/UserLayout/images/pay2.png" alt="">
+                            </li>
+                            <li>
+                                <img src="~/UserLayout/images/pay5.png" alt="">
+                            </li>
+                            <li>
+                                <img src="~/UserLayout/images/pay1.png" alt="">
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- //payment -->
+                </div>
+
+            </div>
+        </div>
+    </footer>
+    <div class="copy-right">
+        <div class="container">
+            <p>
+                © 2019 Valley Grocery Shoppy. All rights reserved | Design by
+                <a href="https://www.facebook.com/profile.php?id=100008213238246">Bijay Acharya</a>
+            </p>
+        </div>
+    </div>
+    <!-- //copyright -->
+    <!-- js-files -->
+    <!-- jquery -->
+
+    <script src="~/UserLayout/js/jquery-2.1.4.min.js"></script>
+    <script src="~/UserLayout/js/bootstrap.min.js"></script>
+    <script src="~/UserLayout/js/jquery.validate.min.js"></script>
+    <script src="~/UserLayout/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/js/notify.min.js"></script>
+
+    <!-- //jquery -->
+    <!-- popup modal (for signin & signup)-->
+    <script src="~/UserLayout/js/jquery.magnific-popup.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.popup-with-zoom-anim').magnificPopup({
+                type: 'inline',
+                fixedContentPos: false,
+                fixedBgPos: true,
+                overflowY: 'auto',
+                closeBtnInside: true,
+                preloader: false,
+                midClick: true,
+                removalDelay: 300,
+                mainClass: 'my-mfp-zoom-in'
+            });
+
+        });
+    </script>
+
+    <!-- price range (top products) -->
+    <script src="~/UserLayout/js/jquery-ui.js"></script>
+    <script>
+        //<![CDATA[
+        $(window).load(function () {
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 9000,
+                values: [50, 6000],
+                slide: function (event, ui) {
+                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                }
+            });
+            $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
+
+        }); //]]>
+    </script>
+    <!-- //price range (top products) -->
+    <!-- flexisel (for special offers) -->
+    <script src="~/UserLayout/js/jquery.flexisel.js"></script>
+    <script>
+        $(window).load(function () {
+            $("#flexiselDemo1").flexisel({
+                visibleItems: 3,
+                animationSpeed: 1000,
+                autoPlay: true,
+                autoPlaySpeed: 3000,
+                pauseOnHover: true,
+                enableResponsiveBreakpoints: true,
+                responsiveBreakpoints: {
+                    portrait: {
+                        changePoint: 480,
+                        visibleItems: 1
+                    },
+                    landscape: {
+                        changePoint: 640,
+                        visibleItems: 2
+                    },
+                    tablet: {
+                        changePoint: 768,
+                        visibleItems: 2
+                    }
+                }
+            });
+
+        });
+    </script>
+    <!-- //flexisel (for special offers) -->
+    <!-- password-script -->
+    <script>
+        window.onload = function () {
+            document.getElementById("password1").onchange = validatePassword;
+            document.getElementById("password2").onchange = validatePassword;
+        }
+
+        function validatePassword() {
+            var pass2 = document.getElementById("password2").value;
+            var pass1 = document.getElementById("password1").value;
+            if (pass1 != pass2)
+                document.getElementById("password2").setCustomValidity("Passwords Don't Match");
+            else
+                document.getElementById("password2").setCustomValidity('');
+            //empty string means no validation error
+        }
+    </script>
+    <!-- //password-script -->
+    <!-- smoothscroll -->
+    <script src="~/UserLayout/js/SmoothScroll.min.js"></script>
+    <!-- //smoothscroll -->
+    <!-- start-smooth-scrolling -->
+    <script src="~/UserLayout/js/move-top.js"></script>
+    <script src="~/UserLayout/js/easing.js"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 1000);
+            });
+        });
+    </script>
+    <!-- //end-smooth-scrolling -->
+    <!-- smooth-scrolling-of-move-up -->
+    <script>
+        $(document).ready(function () {
+            /*
+            var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+            */
+            $().UItoTop({
+                easingType: 'easeOutQuart'
+            });
+
+        });
+
+    </script>
+    <!-- //smooth-scrolling-of-move-up -->
+    <!-- for bootstrap working -->
+    <script src="~/UserLayout/js/bootstrap.js"></script>
+    <!-- //for bootstrap working -->
+    <!-- //js-files -->
+
+
+</body>
+
+</html>

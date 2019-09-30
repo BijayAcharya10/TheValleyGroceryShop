@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ValleyGroceryShop.Models.ViewModel.OrderDetailsViewModel>
+
+@{
+    ViewBag.Title = "ViewOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">View Order</li>
+    </ol>
+</div><!--/.row-->
+<!-- Main content -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                View Order
+
+
+            </div>
+            <div class="panel-body">
+                <div class="box-body">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProductId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProductName)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Quantity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UnitPrice)
+                            </th>
+
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    @Html.DisplayFor(modelItem => item.ProductName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProductId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                    @using (Html.BeginForm())
+                    {
+                        <input type="submit" value="Confirm Order" class="btn btn-info" />
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,54 @@
+﻿@model ValleyGroceryShop.Models.ViewModel.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<link href="~/rootcss/css/bootstrap2.css" rel='stylesheet' type='text/css' />
+<link href="~/rootcss/css/style2.css" rel='stylesheet' type='text/css' />
+<link href="~/rootcss/css/font-awesome2.css" rel="stylesheet">
+<div class="login">
+
+    <div class="main-agileits">
+        <div class="form-w3agile">
+            <h3>Login</h3>
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count > 0)
+                {
+                    <div class="alert alert-warning">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        @Html.ValidationSummary(true, "")
+                    </div>
+                }
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                <div class="key">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @onfocus = "this.value = '';", @onblur = "if (this.value == '') {this.value = 'Username';}", @placeHolder = "Enter Username", @Required = "required" })
+
+                    <div class="clearfix"></div>
+
+                </div>
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                <div class="key">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", @onfocus = "this.value = '';", @onblur = "if (this.value == '') {this.value = 'Password';}", @placeHolder = "Enter Password", @Required = "required" })
+
+                    <div class="clearfix"></div>
+
+                </div>
+
+                <input type="submit" value="Login">
+
+            }
+        </div>
+        <div class="forg">
+            <a href="@Url.Action("ForgetPassword","Home")" class="forg-left">Forgot Password</a>
+            <a href="@Url.Action("Signup","Home")" class="forg-right">Register</a>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+

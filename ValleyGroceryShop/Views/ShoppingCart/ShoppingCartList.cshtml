@@ -1,0 +1,158 @@
+﻿@model ValleyGroceryShop.Models.ViewModel.ShoppingCartViewModel
+
+@{
+    ViewBag.Title = "ShoppingCartList";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<script src="~/UserLayout/js/jquery-1.11.1.min.js"></script>
+<script>
+
+    $(function () {
+
+        // Document.ready -> link up remove event handler
+        $(".RemoveLink").click(function () {
+            // Get the id from the link
+            var recordToDelete = $(this).attr("data-id");
+            if (recordToDelete != '') {
+                // Perform the ajax post
+                $.post("/ShoppingCart/RemoveFromCart", { "id": recordToDelete },
+                    function (data) {
+                        // Successful requests get here
+                        // Update the page elements
+                        if (data.ProductCount == 0) {
+                            $('#row-' + data.DeleteId).fadeOut('slow');
+                        } else {
+                            $('#item-count-' + data.DeleteId).text(data.ProductCount);
+                        }
+                        $('#cart-total').text(data.CartTotal);
+                        $('#update-message').text(data.Message);
+                        $('#cart-status').text('Cart (' + data.CartCount + ')');
+                    });
+            }
+        });
+        $(".RefreshQuantity").click(function () {
+            // Get the id from the link
+            var recordToUpdate = $(this).attr("data-id");
+            //Set quantity number to 0 if input value is empty
+            var countToUpdate = 0;
+            if ($("#" + $(this).attr("txt-id")).val().trim() !== '') {
+                countToUpdate = $("#" + $(this).attr("txt-id")).val();
+            }
+            if (recordToUpdate != '') {
+                clearUpdateMessage();
+                // Perform the ajax post
+                $.post("/ShoppingCart/UpdateCartCount", { "id": recordToUpdate, "cartCount": countToUpdate },
+                    function (data) {
+                        // Successful requests get here
+                        // Update the page elements
+                        if (data.ProductCount == 0) {
+                            $('#row-' + data.DeleteId).fadeOut('slow');
+                        }
+                        $('#update-message').text(htmlDecode(data.Message));
+
+                        //Check for not process the callback data when server error occurs
+                        if (data.ProductCount != -1) {
+                            $('#cart-total').text(data.CartTotal);
+                            $('#cart-status').text('Cart (' + data.CartCount + ')');
+                        }
+                    });
+            }
+        });
+    });
+
+    function clearUpdateMessage() {
+        // Reset update-message area
+        $('#update-message').text('');
+    }
+    function htmlDecode(value) {
+        if (value) {
+            return $('<div />').html(value).text();
+        }
+        else {
+            return '';
+        }
+    }
+    if (typeof String.prototype.trim !== 'function') {
+        String.prototype.trim = function () {
+            return this.replace(/^\s+|\s+$/g, '');
+        }
+    }
+
+</script>
+<div class="content-top ">
+    <div class="container ">
+        <div class="spec ">
+            <h3 class="tittle-w3l">
+                Checkout
+                <span class="heading-style">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </span>
+            </h3>
+        </div>
+        <div class="tab-head ">
+
+            <div class=" tab-content tab-content-t ">
+                <div class="tab-pane active text-style" id="tab1">
+                    <div class=" con-w3l">
+
+                        <p class="button">
+                            @Html.ActionLink("Checkout>>", "AddressAndPayment", "ShoppingCart", null, new { @class = "btn btn-info" })
+                        </p>
+                        <div id="update-message">
+                        </div>
+                        <div class="table-responsive">
+                            <table class="timetable_sub">
+                                <tr>
+                                    <th>
+                                        Product Name
+                                    </th>
+                                    <th>
+                                        Price (each)
+                                    </th>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                @foreach (var item in Model.CartItems)
+                                {
+                                    <tr id="row-@item.RecordId">
+                                        <td>
+                                            @Html.ActionLink(item.tblProduct.ProductName,
+                            "Details", "Store", new { id = item.ProductId }, null)
+                                        </td>
+                                        <td>
+                                            @item.tblProduct.UnitPrice
+                                        </td>
+                                        <td id="item-count-@item.RecordId">
+                                            @item.Count
+                                        </td>
+                                        <td>
+                                            <a href="#" class="RemoveLink btn btn-info"
+                                               data-id="@item.RecordId">
+                                                Remove
+
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td>
+                                        Total
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td id="cart-total">
+                                        @Model.CartTotal
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
